@@ -3,8 +3,8 @@ package math;
 final class NumberChunk extends MathGlobal
 {
 
-	double a	= 0.0;
-	int n		= 0;
+	double	a	= 0.0;
+	int		n	= 0;
 
 	NumberChunk() {}
 

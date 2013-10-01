@@ -240,7 +240,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		mdc (a, t1);
 		
 		NumberChunk t2		= new NumberChunk();
-		t2.n			= -2 * t1.n / 3;
+		t2.n			= - (t1.n << 1) / 3;
 		t2.a			= Math.pow((t1.a * Math.pow(2.0,(t1.n + 3.0 * t2.n / 2.0))), (-2.0 / 3.0));
 		
 		dmc (t2, b);
@@ -256,7 +256,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		for (int k = 2; k<=mq - 1;k++)
 		{
 			int nw1			= lnw; 
-			lnw			= Math.min (2 * lnw - 2, nws) + 1;
+			lnw			= Math.min ((lnw<<1) - 2, nws) + 1;
 			int nw2			= lnw; 
 			boolean cont	= true;
 			
@@ -285,7 +285,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		mul (a, b, sk0, lnw);
 
 		int nw1	= lnw; 
-		lnw	= Math.min (2 * lnw - 2, nws) + 1;
+		lnw	= Math.min ((lnw<<1) - 2, nws) + 1;
 		int nw2	= lnw; 
 
 		mul (sk0, sk0, sk1, lnw);
@@ -1084,9 +1084,9 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 
 			for (j = 1; j<= mn; j++)
 			{
-				int kk = kn / 2;
+				int kk = kn>>1;
 
-				if (kn != 2 * kk) 
+				if (kn != kk<<1) 
 				{
 					mul (b, sk0, sk1, lnw);
 					eq (sk1, b, lnw);
@@ -1227,7 +1227,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 
 		for (k = 2; k<= mq;k++)
 		{
-			lnw			= Math.min (2 * lnw - 2, nws) + 1;
+			lnw			= Math.min ((lnw<<1) - 2, nws) + 1;
 			boolean loop	= true;
 
 			while (loop)
@@ -1414,8 +1414,8 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		mdc (a, t1);
 
 		NumberChunk dp1	= new NumberChunk();
-		dp1.n		= -t1.n / 2;
-		t2			= Math.sqrt (t1.a * Math.pow(2.0, (t1.n + 2 * dp1.n)));
+		dp1.n		= -t1.n>>1;
+		t2			= Math.sqrt (t1.a * Math.pow(2.0, (t1.n + (dp1.n<<1) )));
 		dp1.a		= 1.0/t2; 
 
 		dmc (dp1, b);
@@ -1433,7 +1433,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		for(k = 2; k<= mq - 1; k++)
 		{
 			nw1				= lnw;
-			lnw			= Math.min (2 * lnw - 2, nws) + 1;
+			lnw			= Math.min ((lnw<<1) - 2, nws) + 1;
 			nw2				= lnw;
 			boolean stop	= false;
 
@@ -1457,7 +1457,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		mul (a, b, sk0, lnw);
 
 		nw1		= lnw;
-		lnw	= Math.min (2 * lnw - 2, nws) + 1;
+		lnw	= Math.min ((lnw<<1) - 2, nws) + 1;
 		nw2		= lnw;
 
 		mul (sk0, sk0, sk1, lnw);
@@ -2064,7 +2064,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 
 		for (k = 2;  k<=mq; k++)
 		{
-			lnw			= Math.min (2 * lnw - 2, nws) + 1;
+			lnw			= Math.min ((lnw<<1) - 2, nws) + 1;
 			boolean cont	= true;
 
 			while(cont)
@@ -2188,7 +2188,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 			kb = 0;
 		}
 
-		t1.a	= (8 * ka + kb) / 32.0;
+		t1.a	= ((ka<<3) + kb) / 32.0;
 		t1.n	= 0;
 
 		dmc (t1, sk1);
@@ -2474,7 +2474,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 
 		for(k = 2; k<=mq; k++)
 		{
-			lnw			= Math.min (2 * lnw - 2, nws) + 1 ;
+			lnw			= Math.min ((lnw<<1) - 2, nws) + 1 ;
 			boolean cont	= true;
 
 			while(cont)
@@ -2561,14 +2561,14 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		if ((is != 1 && is != -1) || m < 3 || m > mx) 
 			throw new ArithmeticException("mpfftcr: Either the UU arrays have not been initialized or one of the input parameters is invalid: " +is + "\t" + m + "\t" + mx);
 
-		Complex dc1[]	= new Complex[n/2];
+		Complex dc1[]	= new Complex[n>>1];
 		Complex a1	= null;
 		Complex a2	= null;
 		Complex x1	= null;
 		Complex x2	= null;
-		int n1				= (int)(Math.pow(2, (m / 2)));
-		int n2				= n / 2;
-		int n4				= n / 4;
+		int n1				= (int)(Math.pow(2, (m >> 1)));
+		int n2				= n >> 1;
+		int n4				= n >> 2;
 		dc1[0]				= pointFive.multiply(new Complex ((x[0].add(x[n2])).real(),  (x[0].subtract(x[n2])).real()));
 		dc1[n4]				= (is == 1)?x[n4].conjg():((Complex)x[n4].clone());
 		int ku				= n2;
@@ -2600,7 +2600,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
     
 		mpfft1 (is, m - 1, n1, n2 / n1, dc1, x);
 
-		for(k = 0; k< n / 2; k++)
+		for(k = 0; k< n>>1; k++)
 		{
 			y[k<<1]		= dc1[k].real();
 			y[(k<<1)+1]	= dc1[k].aimag();
@@ -2615,13 +2615,13 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		if ((is != 1 && is != -1) || m < 3 || m > mx) 
 			throw new ArithmeticException("mpfftrc: Either the UU arrays have not been initialized or one of the input parameters is invalid: " + is + "\t" + m + "\t" + mx);
 
-		Complex dc1[]	= new Complex[n/2], a1, a2, z1, z2;
-		int n1				= (int) Math.pow(2,(m / 2));
-		int n2				= n / 2;
-		int n4				= n / 4;
+		Complex dc1[]	= new Complex[n>>1], a1, a2, z1, z2;
+		int n1				= (int) Math.pow(2,(m>>1));
+		int n2				= n >> 1;
+		int n4				= n >> 2;
 
 		for(k = 0; k< n2; k++)
-			dc1[k] = new Complex (x[2*k], x[2*k+1]);
+			dc1[k] = new Complex (x[k<<1], x[(k<<1)+1]);
 
 		mpfft1 (is, m - 1, n1, n2 / n1, dc1, y);
 		
@@ -2665,7 +2665,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		Complex z1[][]	= new Complex[18][n1]; 
 		Complex z2[][]	= new Complex[18][n1];
 		int yrow				= n2 + 2;
-		int m1					= (m + 1) / 2;
+		int m1					= (m + 1)>>1;
 		int m2					= m - m1;
 		int nr1					= Math.min (n1, 16);
 		int nr2					= Math.min (n2, 16);
@@ -2724,9 +2724,9 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 			{
 				int j2 = 0;
 
-				for (j = 0; j<n1 / 2; j++)
+				for (j = 0; j<n1>>1; j++)
 				{
-					j2 = 2 * j;
+					j2 = (j<<1);
 					
 					for (k = 0; k< nr2; k++)
 					{
@@ -2770,10 +2770,10 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		int i				= 0;
 		int j				= 0;
 		int k				= 0;
-		int n1				= n / 2;
+		int n1				= n>>1;
 		int lk				= (int)Math.pow(2,(l - 1));
 		int li				= (int)Math.pow(2, (m - l));
-		int lj				= 2 * lk;
+		int lj				= (lk<<1);
 		int ku				= li;
 		int i11				= 0;
 		int i12				= 0;
@@ -2818,7 +2818,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 			switch(iq)
 			{
 				case 1:
-					for(k = 0; k<2 * n; k++)
+					for(k = 0; k<(n<<1); k++)
 					{
 						t1	= 0.0;
 						n1	= Math.max (k - n + 2, 1);
@@ -2832,7 +2832,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 					break;
 				
 				case 2: 
-					for(k = 0; k< 2 * n; k++)
+					for(k = 0; k<(n<<1); k++)
 					{
 						t1	= 0.0;
 						n1	= Math.max (k - n + 2, 1);
@@ -2848,7 +2848,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 				case -1:
 					for (k = 0; k< n - 1; k++)
 						c[k] = 0.0;
-					for(k = n-1; k< 2 * n; k++)
+					for(k = n-1; k<(n<<1); k++)
 					{
 						t1	= 0.0;
 						n1	= k - n + 2;
@@ -2864,7 +2864,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 				case -2:
 					for (k = 0; k< n - 1; k++)
 						c[k] = 0.0;
-					for(k = n-1; k<2 * n; k++)
+					for(k = n-1; k<(n<<1); k++)
 					{
 						t1	= 0.0;
 						n1	= k - n + 2;
@@ -2883,15 +2883,15 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		double d1[]			= new double[3*n+2];
 		double d2[]			= new double[3*n+2]; 
 		double d3[]			= new double[3*n+2];
-		Complex dc1[]	= new Complex[3*n/2+nsq*2+3];
-		Complex dc2[]	= new Complex[3*n/2+nsq*2+3];
+		Complex dc1[]	= new Complex[3*(n>>1)+(nsq<<1)+3];
+		Complex dc2[]	= new Complex[3*(n>>1)+(nsq<<1)+3];
 		t1					= 0.75 * n;
 		int m1				= (int)(CL2 * Math.log (t1) + 1.0 - 5.6843418860808015e-14);
 		n1					= (int) (Math.pow(2, m1));
 		int m2				= m1 + 1;
-		n2					= 2 * n1;
-		int n4				= 2 * n2;
-		int nm				= Math.min (2 * n, n2);
+		n2					= n1<<1;
+		int n4				= n2<<1;
+		int nm				= Math.min ((n<<1), n2);
     
 		if (Math.abs (iq) == 1)
 		{
@@ -2970,8 +2970,8 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		if (n > n1) 
 		{
 			m	= n - n1;
-			m2	= 2 * m;
-			m21	= 2 * m - 1;
+			m2	= (m<<1);
+			m21	= m2 - 1;
 			ms	= (int)(Math.sqrt (3.0 * m21) + 5.6843418860808015e-14);
 			k	= n1 - m + 1;
 
@@ -3054,7 +3054,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		for(k = pointer + 1; k<=mq - 1; k++)
 		{
 			nw1				= lnw; 
-			lnw			= Math.min (2 * lnw - 2, nws) + 1;
+			lnw			= Math.min ((lnw<<1) - 2, nws) + 1;
 			nw2				= lnw; 
 			boolean cont	= true;
 
@@ -3083,7 +3083,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		_mul(a, b, sk0, lnw);
 
 		nw1		= lnw; 
-		lnw	= Math.min (2 * lnw - 2, nws) + 1;
+		lnw	= Math.min ((lnw<<1) - 2, nws) + 1;
 		nw2		= lnw;
 
 		_sq (sk0, sk1, lnw);
@@ -3142,7 +3142,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		for(k = pointer + 1; k<= mq - 1; k++)
 		{
 			nw1				= lnw;
-			lnw			= Math.min (2 * lnw - 2, nws) + 1;
+			lnw			= Math.min ((lnw<<1) - 2, nws) + 1;
 			nw2				= lnw;
 			boolean cont	= true;
 
@@ -3169,7 +3169,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		_mul (a, c, sk0, lnw);
 
 		nw1		= lnw;
-		lnw	= Math.min (2 * lnw - 2, nws) + 1;
+		lnw	= Math.min ((lnw<<1) - 2, nws) + 1;
 		nw2		= lnw;
 
 		_mul (sk0, b, sk1, lnw);
@@ -3203,9 +3203,9 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 			return;
 		}
 
-		double d1[]	= new double[2*lnw+4];
-		double d2[]	= new double[2*lnw+4]; 
-		double d3[]	= new double[4*lnw+8];
+		double d1[]	= new double[(lnw+2)<<1];
+		double d2[]	= new double[(lnw+2)<<1]; 
+		double d3[]	= new double[(lnw+3)<<2];
 		int i2		= 0;
 
 		for (i = 0; i< na; i++)
@@ -3217,7 +3217,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 			d1[i2+1]	= t1 - 4096.0 * t2;
 		}
 
-		for(i = na*2; i<nb*2; i++)
+		for(i = na<<1; i<nb<<1; i++)
 			d1[i]		= 0.0;
 		
 		for(i = 0; i< nb; i++)
@@ -3229,10 +3229,10 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 			d2[i2+1]	= t1 - 4096.0 * t2;
 		}
 		
-		for (i = 2 * nb; i< 2 * na; i++)
+		for (i = (nb<<1); i< (na<<1); i++)
 			d2[i]		= 0.0;
     
-		int nn		= 2 * Math.max (na, nb);
+		int nn		= Math.max (na, nb) <<1;
 		int nx		= (int)(Math.sqrt (3.0 * nn) + 5.6843418860808015e-14);
 
 		mplconv (2, nn, nx, d1, d2, d3);
@@ -3324,9 +3324,9 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 
 			for (j = 1; j<= mn; j++)
 			{
-				int kk	= kn / 2;
+				int kk	= kn>>1;
 
-				if (kn != 2 * kk) 
+				if (kn != kk<<1) 
 				{
 					_mul (b, sk0, sk1, lnw);
 					eq (sk1, b, lnw);
@@ -3471,7 +3471,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		for (k = pointer+1; k<= mq;k++)
 		{
 			nw1				= lnw;
-			lnw			= Math.min (2 * lnw - 2, nws) + 1;
+			lnw			= Math.min ((lnw<<1) - 2, nws) + 1;
 			nw2				= lnw;
 			boolean loop	= true;
 
@@ -3547,7 +3547,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		for(k = pointer + 1; k<= mq - 1; k++)
 		{
 			nw1				= lnw;
-			lnw			= Math.min (2 * lnw - 2, nws) + 1;
+			lnw			= Math.min ((lnw<<1) - 2, nws) + 1;
 			nw2				= lnw;
 			boolean stop	= false;
 
@@ -3575,7 +3575,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		_mul (a, b, sk0, lnw);
 
 		nw1		= lnw;
-		lnw	= Math.min (2 * lnw - 2, nws) + 1;
+		lnw	= Math.min ((lnw<<1) - 2, nws) + 1;
 		nw2		= lnw;
 
 		_sq (sk0, sk1, lnw);
@@ -3615,7 +3615,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 			return;
 		}
 
-		double d1[]	= new double[2*lnw+4], d2[] = new double[4*lnw+8];
+		double d1[]	= new double[(lnw+2)<<1], d2[] = new double[(lnw+2)<<2];
 		int i2		= 0;
 
 		for(i = 0; i<na; i++)
@@ -3627,15 +3627,15 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 			d1[i2+1]	= t1 - 4096.0 * t2;
 		}
 
-		int nn		= 2 * na;
+		int nn		= (na<<1);
 		int nx		= (int)(Math.sqrt (3.0 * nn) + 5.6843418860808015e-14);
 		
 		mplconv (1, nn, nx, d1, d1, d2);
 
-		int nc		= Math.min (2 * na, lnw);
-		int nc1		= Math.min (lnw + 1, 2 * na - 1);
+		int nc		= Math.min ((na<<1), lnw);
+		int nc1		= Math.min (lnw + 1, (na<<1) - 1);
 		d1[0]		= nc;
-		d1[1]		= 2 * a.exponent + 1;
+		d1[1]		= (a.exponent<<1) + 1;
 		d1[2]		= d2[0];
 		d1[nc+2]	= 0.0;
 		d1[nc+3]	= 0.0;
@@ -3771,7 +3771,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 
 		for(k = pointer + 1; k<=mq; k++)
 		{
-			lnw			= Math.min (2 * lnw, nws);
+			lnw			= Math.min (lnw<<1, nws);
 			boolean cont	= true;
 
 			while(cont)
@@ -3879,7 +3879,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
     
 		mdc (a, t1);
 
-		t2.n	= 24 * (lnw / 2 + 2) - t1.n;
+		t2.n	= 12 * lnw + 48 - t1.n;
 		tn		= t2.n;
 		t2.a	= 1.0;
     
@@ -3978,7 +3978,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		double t2			= 0.0;
 		char c1[]			= new char[17];
 		char c2[]			= new char[17];
-		char b1[]			= new char[8*lnw+31], b2[] = new char[8*lnw+31];
+		char b1[]			= new char[(lnw<<3)+31], b2[] = new char[(lnw<<3)+31];
 		int nw2			= lnw+2;
 		PrecisionNumber sk0	= new PrecisionNumber(nw2,false);
 		PrecisionNumber sk1	= new PrecisionNumber(nw2,false);
@@ -4000,7 +4000,7 @@ class PrecisionNumber extends MathGlobal implements Cloneable
 		mdc			(sk1, dpe2);
 		NumberChunk.dpdec (dpe2, dpe3);
 
-		int m2		= dpe3.n / 2;
+		int m2		= dpe3.n>>1;
 
 		_npw	(sk0, m2, sk3, lnw);
 		_div	(sk1, sk3, sk0, lnw);

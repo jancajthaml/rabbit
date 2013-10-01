@@ -12,43 +12,43 @@ public final class PrecisionReal extends PrecisionNumber
 	public static PrecisionReal EPSILON;
 
 	public PrecisionReal()
-	{ super(true, precision_digits); }
+	{ super( true, precision_digits ); }
 
 	public PrecisionReal(boolean b, int precision)
-	{ super(b, precision); }
+	{ super( b, precision ); }
 
 	public PrecisionReal(int size, boolean b)
-	{ super(size, b); }
+	{ super( size, b); }
 
 	public PrecisionReal(PrecisionReal in) 
-	{ super((PrecisionNumber)in); }
+	{ super( (PrecisionNumber)in ); }
 
 	public PrecisionReal(double d)
-	{ super(d, precision_digits);}
+	{ super( d, precision_digits );}
 
 	public PrecisionReal(double d, int precision)
-	{ super(d, precision);}
+	{ super( d, precision );}
 
 	public PrecisionReal(String str)
-	{ super(str, precision_digits); }
+	{ super( str, precision_digits ); }
 
 	public PrecisionReal(String str, int precision)
-	{ super(str, precision); }
+	{ super( str, precision ); }
   
 	public PrecisionReal(PrecisionInteger in)
-	{ super((PrecisionNumber)in); };
+	{ super( (PrecisionNumber)in ); };
 
 	PrecisionReal(int size)
-	{ super(size, false); }
+	{ super( size, false ); }
 
 	public PrecisionReal(PrecisionComplex mpc)
-	{ this(mpc, precision_digits); }
+	{ this( mpc, precision_digits ); }
 
 	public PrecisionReal(PrecisionComplex mpc, int precision)
 	{
-		super(true, precision);
+		super( true, precision );
 
-		eq (mpc.r, this, Math.min(nw, maxnw - 1));
+		eq ( mpc.r, this, Math.min(nw, maxnw - 1) );
 	}
 
 	public PrecisionReal assign(PrecisionNumber ja)
@@ -63,7 +63,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();  
 		
-		add (this, ja, res, nw);
+		add ( this, ja, res, nw );
 		
 		return res;
 	}
@@ -72,8 +72,8 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();  
 		
-		sub (this, ja, res, nw);
-		
+		sub ( this, ja, res, nw );
+
 		return res;
 	}
 
@@ -81,7 +81,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();
     
-		eq (this, res, nw);
+		eq ( this, res, nw );
 		
 		res.sign = !this.sign;
 		
@@ -92,7 +92,8 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();  
 		
-		_mul (this, ja, res, nw);
+		_mul ( this, ja, res, nw );
+
 		return res;
 	}
 
@@ -100,7 +101,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();  
 		
-		_div (this, ja, res, nw);
+		_div ( this, ja, res, nw );
 		
 		return res;
 	}
@@ -109,7 +110,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();  
 		
-		eq (this, res, nw);
+		eq ( this, res, nw );
 		
 		res.sign = true;
 		
@@ -117,16 +118,16 @@ public final class PrecisionReal extends PrecisionNumber
 	}
 
 	public PrecisionReal max(PrecisionReal val)
-	{ return (compare(this, val, nw) >= 0)?this:val; }
+	{ return ( compare(this, val, nw) >= 0 ) ? this : val; }
  
 	public PrecisionReal min(PrecisionReal val)
-	{ return (compare(this, val, nw) < 0)?this:val; }
+	{ return ( compare(this, val, nw) < 0 ) ? this : val; }
   
 	public PrecisionReal sign(PrecisionNumber val)
 	{
 		PrecisionReal res = new PrecisionReal();
 		
-		eq (this, res, nw);
+		eq ( this, res, nw );
 		
 		res.sign = val.sign;
 		
@@ -139,9 +140,9 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionNumber mpt1	= new PrecisionNumber();
 		PrecisionNumber mpt2	= new PrecisionNumber();
 		
-		_log (this, PI, LOG2, mpt1, nw);
-		_mul (mpt1, exponent, mpt2, nw);
-		_exp (mpt2, PI, LOG2, mpt1, nw);
+		_log ( this, PI, LOG2, mpt1, nw );
+		_mul ( mpt1, exponent, mpt2, nw );
+		_exp ( mpt2, PI, LOG2, mpt1, nw );
 		
 		return res;    
 	}
@@ -150,7 +151,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();
 		
-		_npw (this, exponent, res, nw);
+		_npw ( this, exponent, res, nw );
 		
 		return res;
 	}
@@ -161,9 +162,9 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionNumber mpt1	= new PrecisionNumber();
 		PrecisionNumber mpt2	= new PrecisionNumber();
     
-		_log (this, PI, LOG2, mpt1, nw);
-		muld (mpt1, new NumberChunk(exponent), mpt2, nw);
-		_exp (mpt2, PI, LOG2, res, nw);
+		_log ( this, PI, LOG2, mpt1, nw );
+		muld ( mpt1, new NumberChunk(exponent), mpt2, nw );
+		_exp ( mpt2, PI, LOG2, res, nw );
 
 		return res;
 	}
@@ -175,11 +176,11 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionNumber mpt2	= new PrecisionNumber();
 		PrecisionNumber mpt3	= new PrecisionNumber();
     
-		dmc		(new NumberChunk(1), mpt1);
-		_mul	(this, this, mpt2, nw);
-		sub		(mpt1, mpt2, mpt3, nw);
-		_sqr	(mpt3, mpt1, nw);
-		_ang	(this, mpt1, PI, res, nw);
+		dmc		( new NumberChunk(1), mpt1 );
+		_mul	( this, this, mpt2, nw );
+		sub		( mpt1, mpt2, mpt3, nw );
+		_sqr	( mpt3, mpt1, nw );
+		_ang	( this, mpt1, PI, res, nw );
 		
 		return res;
 	}
@@ -188,7 +189,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal(); 
 		
-		infr	(this, res, new PrecisionNumber(), nw);
+		infr	( this, res, new PrecisionNumber(), nw );
 		
 		return res;
 	}
@@ -197,7 +198,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();
 		
-		nint	(this, res, nw);
+		nint	( this, res, nw );
 		
 		return res;
 	}
@@ -209,11 +210,11 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionNumber mpt2	= new PrecisionNumber();
 		PrecisionNumber mpt3	= new PrecisionNumber();
 
-		dmc		(new NumberChunk(1), mpt1);
-		_mul	(this, this, mpt2, nw);
-		sub		(mpt1, mpt2, mpt3, nw);
-		_sqr	(mpt3, mpt1, nw);
-		_ang	(mpt1, this, PI, res, nw);
+		dmc		( new NumberChunk(1), mpt1 );
+		_mul	( this, this, mpt2, nw );
+		sub		( mpt1, mpt2, mpt3, nw );
+		_sqr	( mpt3, mpt1, nw );
+		_ang	( mpt1, this, PI, res, nw );
 		
 		return res;
 	}
@@ -223,8 +224,8 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionReal res		= new PrecisionReal();
 		PrecisionNumber mpt1	= new PrecisionNumber(6,false);
 
-		dmc		(new NumberChunk(1), mpt1);
-		_ang	(this, mpt1, PI, res, nw);
+		dmc		( new NumberChunk(1), mpt1 );
+		_ang	( this, mpt1, PI, res, nw );
 		
 		return res;
 	}
@@ -233,7 +234,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();
 
-		_ang (val, this, PI, res, nw);
+		_ang ( val, this, PI, res, nw );
 		
 		return res;
 	}
@@ -243,7 +244,7 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionReal res		= new PrecisionReal();
 		PrecisionNumber mpt1	= new PrecisionNumber();
 
-		_cos (this, PI, res, mpt1, nw);
+		_cos ( this, PI, res, mpt1, nw );
 		
 		return res;
 	}
@@ -253,7 +254,7 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionReal res		= new PrecisionReal();
 		PrecisionNumber mpt1	= new PrecisionNumber();
 
-		_cosh	(this, PI, LOG2, res, mpt1, nw);
+		_cosh	( this, PI, LOG2, res, mpt1, nw );
 
 		return res;
 	}
@@ -262,7 +263,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();
 		
-		_exp	(this, PI, LOG2, res, nw);
+		_exp	( this, PI, LOG2, res, nw );
 
 		return res;
 	}
@@ -271,7 +272,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();
 
-		_log	(this, PI, LOG2, res, nw);
+		_log	( this, PI, LOG2, res, nw );
 
 		return res;
 	}
@@ -281,23 +282,23 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionReal res		= new PrecisionReal();
 		PrecisionNumber mpt1	= new PrecisionNumber();
 
-		_log	(this, PI, LOG2, mpt1, nw);
-		_div	(mpt1, LOG10, res, nw);
+		_log	( this, PI, LOG2, mpt1, nw );
+		_div	( mpt1, LOG10, res, nw );
 		
 		return res;    
 	}
 
 	public void csshf(PrecisionReal cosh, PrecisionReal sinh)
-	{ _cosh(this, PI, LOG2, cosh, sinh, nw); }
+	{ _cosh( this, PI, LOG2, cosh, sinh, nw ); }
 
 	public void cssnf(PrecisionReal cosine, PrecisionReal sine)
-	{ _cos(this, PI, cosine, sine, nw); }
+	{ _cos( this, PI, cosine, sine, nw ); }
   
 	public PrecisionReal nrtf(int ib)
 	{
 		PrecisionReal res = new PrecisionReal();
 		
-		_nrt	(this, ib, res, nw);
+		_nrt	( this, ib, res, nw );
 		
 		return res;
 	}
@@ -306,7 +307,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();
 
-		rand	(res, nw);
+		rand	( res, nw );
 		
 		return res;
 	}
@@ -315,7 +316,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionInteger res  = new PrecisionInteger();
 
-		nint	(this, res, nw);
+		nint	( this, res, nw );
 		
 		return res;
 	}
@@ -325,7 +326,7 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionReal res		= new PrecisionReal();
 		PrecisionNumber mpt1	= new PrecisionNumber();
 
-		_cos(this, PI, mpt1, res, nw);
+		_cos( this, PI, mpt1, res, nw );
 		
 		return res;
 	}
@@ -335,7 +336,7 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionReal res		= new PrecisionReal();
 		PrecisionNumber mpt1	= new PrecisionNumber();
 
-		_cosh	(this, PI, LOG2, mpt1, res, nw);
+		_cosh	( this, PI, LOG2, mpt1, res, nw );
 		
 		return res;
 	}
@@ -344,7 +345,7 @@ public final class PrecisionReal extends PrecisionNumber
 	{
 		PrecisionReal res = new PrecisionReal();
 
-		_sqr	(this, res, nw);
+		_sqr	( this, res, nw );
 		
 		return res;
 	}
@@ -355,8 +356,8 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionNumber mpt1	= new PrecisionNumber();
 		PrecisionNumber mpt2	= new PrecisionNumber();
 
-		_cos	(this, PI, mpt1, mpt2, nw);
-		_div	(mpt1, mpt2, res, nw);
+		_cos	( this, PI, mpt1, mpt2, nw );
+		_div	( mpt1, mpt2, res, nw );
 		
 		return res;
 	}
@@ -367,8 +368,8 @@ public final class PrecisionReal extends PrecisionNumber
 		PrecisionNumber mpt1	= new PrecisionNumber();
 		PrecisionNumber mpt2	= new PrecisionNumber();
 
-		_cosh	(this, PI, PI, mpt1, mpt2, nw);
-		_div	(mpt1, mpt2, res, nw);
+		_cosh	( this, PI, PI, mpt1, mpt2, nw );
+		_div	( mpt1, mpt2, res, nw );
 		
 		return res;
 	}
@@ -395,10 +396,10 @@ public final class PrecisionReal extends PrecisionNumber
 		dmc		(new NumberChunk(10), t2);
 		_npw	(t2, ellog10, EPSILON, nw+1);
 
-		PI.number_words--;
-		LOG2.number_words--;
-		LOG10.number_words--;
-		EPSILON.number_words--;
+		PI		. number_words--;
+		LOG2	. number_words--;
+		LOG10	. number_words--;
+		EPSILON	. number_words--;
 	}
 	
 }

@@ -68,7 +68,7 @@ abstract class MathGlobal
 		  }
 
 		  ku	+= 	ln;
-		  ln	*=	2;
+		  ln	<<=	1;
 	  }
 
 	  double tpn	= 0.0;
