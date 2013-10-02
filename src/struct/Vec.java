@@ -7,14 +7,14 @@ import util.calculations.ObjectToString;
  * 
  * @author Jan Cajthaml
  *
- * @param <ELEMENT>
+ * @param <T>
  */
-public class Vec<ELEMENT>
+public class Vec<T>
 {
 	
 	// >-------[attrs]---------------------------------------------------------------------------------------< //
 
-	private ELEMENT[] elements	= null;
+	private T[] elements	= null;
 
 	// >-------[ctor]---------------------------------------------------------------------------------------< //
 
@@ -23,7 +23,7 @@ public class Vec<ELEMENT>
 	 * 
 	 * @param e elements
 	 */
-	public Vec(ELEMENT ... e)
+	public Vec(T ... e)
 	{ Vec.this.elements = e; }
 	
 	// >-------[methods]---------------------------------------------------------------------------------------< //
@@ -34,7 +34,7 @@ public class Vec<ELEMENT>
 	 * @param i element index
 	 * @return element
 	 */
-	public ELEMENT get(int i)
+	public T get(int i)
 	{ return Vec.this.elements[i]; }
 	
 	/**
@@ -43,7 +43,7 @@ public class Vec<ELEMENT>
 	 * @param i element index
 	 * @param o element value
 	 */
-	public void set(int i, ELEMENT o)
+	public void set(int i, T o)
 	{ Vec.this.elements[i] = o; }
 	
 	/**
